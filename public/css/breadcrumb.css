@@ -1,0 +1,12 @@
+nav{
+    border-bottom: #222222 1px solid;
+    background-color: white;
+}
+nav img {
+    margin-top: -5px;
+    width: 20px; height:20px
+}
+
+nav b {
+    padding-left: 10px
+}
