@@ -1,3 +1,4 @@
+
 .book-product {
     position: relative;
     display: inline-block;
@@ -7,7 +8,7 @@
 }
 
 .book-product:hover {
-    box-shadow: 0 0 10px #ffcc00;
+    box-shadow: 0 0 1px #868686;
 }
 
 .book-product-author {

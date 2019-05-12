@@ -92,5 +92,5 @@
 }
 
 .preview-book-info:hover{
-    border: #ffcc00 0.5px solid;
+    box-shadow: 0 0 1px #ffcc00;
 }
