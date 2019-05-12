@@ -28,7 +28,7 @@ class RenderAuthorsController extends AbstractController
     {
         $authorsData = DataExtension::getAllAuthors();
         $authorsCount = count($authorsData);
-        $response =['authors'=> $authorsData, 'elementCount'=>$authorsCount, 'innerElement'=>self::PAGE_COMPONENT];
+        $response =['authors'=> $authorsData, 'elementCount'=>$authorsCount,'elementsName'=>'authors', 'innerElement'=>self::PAGE_COMPONENT];
         return $this->render(self::PAGE , $response);
     }
 }

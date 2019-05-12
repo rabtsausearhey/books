@@ -1,13 +1,20 @@
-<div class="count-control-container">
-    <span>amount of elements {{ elementCount }}</span>
-    <span>elements count</span>
-    <select id="elements-count-on-page">
-        <option>1</option>
-        <option>3</option>
-        <option>5</option>
-        <option>10</option>
-        <option>100</option>
-    </select>
-    <span>page number</span>
-    <select id="page-number"></select>
+<div class="row count-control-container">
+    <div >
+        <span>{{ elementCount }} {{ elementsName }}</span>
+    </div>
+    <div class="elements-count">
+        <span>elements count</span>
+        <select id="elements-count-on-page">
+            <option>1</option>
+            <option>3</option>
+            <option>5</option>
+            <option>10</option>
+            <option>100</option>
+        </select>
+    </div>
+    <div class="page-number">
+        <span class="glyphicon glyphicon-circle-arrow-left"></span>
+        <select id="page-number"></select>
+        <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </div>
 </div>

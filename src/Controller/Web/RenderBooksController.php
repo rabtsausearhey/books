@@ -24,7 +24,7 @@ class RenderBooksController extends AbstractController
     {
         $books = DataExtension::getBooksList();
         $authorsCount= count($books);
-        return $this->render(self::PAGE,['books'=>$books,'elementCount'=>$authorsCount, 'innerElement'=>self::PAGE_COMPONENT]);
+        return $this->render(self::PAGE,['books'=>$books,'elementCount'=>$authorsCount,'elementsName'=>'books', 'innerElement'=>self::PAGE_COMPONENT]);
     }
 
     /**
@@ -36,7 +36,7 @@ class RenderBooksController extends AbstractController
     {
         $books = DataExtension::getBooksByAuthorId($authorId);
         $authorsCount= count($books);
-        return $this->render(self::PAGE_COMPONENT,['books'=>$books,'elementCount'=>$authorsCount]);
+        return $this->render(self::PAGE_COMPONENT,['books'=>$books,'elementCount'=>$authorsCount,'elementsName'=>'books']);
 
     }
 }

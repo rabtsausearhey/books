@@ -1,4 +1,28 @@
-.count-control-container{
-    margin-top: 37px;
+.count-control-container {
+float: right;    margin-top: 37px;
     padding: 0 18px;
+    text-align: right;
+    font-size: 150%;
+}
+
+.page-number {
+    display: flex;
+    justify-content: space-between;
+    text-align: right;
+    margin-right: 10px;
+}
+
+.page-number span {
+    font-size: 130%;
+}
+
+.count-control-container select {
+    margin: 3px 5px 0 5px;
+    height: 20px;
+    width: 100px;
+}
+
+.elements-count {
+    display: flex;
+    margin: 0 40px;
 }
