@@ -97,7 +97,7 @@ function bookPreview() {
 function substitution() {
     $('#wait-modal').show();
     const parentElement = $(this).parent();
-    const name = parentElement.attr('data-author-name');
+    const name = 'books of ' + parentElement.attr('data-author-name');
     const defaultCountOnPage = '10';
     const defaultPageNumber = '1';
     getPageBody(name, defaultCountOnPage, defaultPageNumber);

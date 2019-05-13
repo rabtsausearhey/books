@@ -60,7 +60,6 @@ class ChangePageController extends AbstractController
             return new JsonResponse([ 'status' => [ 'code' => 200 , 'message' => 'success' ] , 'currentPage' => $currentPage , 'html' => $html , 'pageCount' => $pageCount , 'elementsCount' => $elementsCount , 'elementsName' => $name ]);
         } catch (Exception $e) {
             return new JsonResponse([ 'status' => [ 'code' => 500 , 'message' => $e->getMessage() ] ]);
-
         }
     }
 }
