@@ -136,9 +136,8 @@ function sendMail() {
     const bookAuthor = buyModal.find('#buy-book-author').text();
     const name = $('#customer-name').val();
     const email = $('#customer-email').val();
-    const currenDate = new Date();
-    const time = `${currenDate.getHours()}:${currenDate.getMinutes()}`;
-    const date = `${currenDate.getDate()} ${getMonthFullName(currenDate.getMonth())} ${currenDate.getFullYear()}`;
+    const time = moment().format('LT');
+    const date = moment().format("MMM Do YY");
     const data = {email, name, date,time, bookName, bookAuthor};
     $.ajax({
         type: 'POST',
