@@ -5,7 +5,7 @@
 {% block title %}Authors{% endblock %}
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/wait_modal.css">
     <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/authors.css">
     <link rel="stylesheet" href="/css/books.css">
@@ -14,13 +14,13 @@
 
 {% block body %}
     {% include '/components/elements_count_control.html.twig' %}
-
+    {% include '/components/wait_modal.html.twig' %}
     <div class="common-container">
         {% include  innerElement %}
     </div>
 {% endblock %}
 {% block javascripts %}
-{{ parent() }}
+    {{ parent() }}
     <script src="/js/common.js"></script>
 {% endblock %}
 

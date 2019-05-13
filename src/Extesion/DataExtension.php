@@ -18,7 +18,6 @@ class DataExtension
         [ 'id' => 3 , 'image' => 'lermantov.jpeg' , 'name' => 'Lermontov Mikhail Yuryevich №4' ] ,
         [ 'id' => 4 , 'image' => 'lermantov.jpeg' , 'name' => 'Lermontov Mikhail Yuryevich №5' ] ,
         [ 'id' => 5 , 'image' => 'lermantov.jpeg' , 'name' => 'Lermontov Mikhail Yuryevich №6' ] ,
-
         [ 'id' => 6 , 'image' => 'lermantov.jpeg' , 'name' => 'Lermontov Mikhail Yuryevich №7' ] ,
         [ 'id' => 7 , 'image' => 'lermantov.jpeg' , 'name' => 'Lermontov Mikhail Yuryevich №8' ] ,
         [ 'id' => 8 , 'image' => 'lermantov.jpeg' , 'name' => 'Lermontov Mikhail Yuryevich №9' ] ,
@@ -28,7 +27,7 @@ class DataExtension
     ];
 
     private const BOOKS_LIST = [
-        [ 'bookId' => '32' , 'authorName' => 'Stephen King' , 'authorId' => '12' , 'name' => 'Pet cemetery' , 'image' => 'pet_cemotory.jpeg' ],
+        [ 'bookId' => '32' , 'authorName' => 'Stephen King' , 'authorId' => '12' , 'name' => 'Pet cemetery' , 'image' => 'pet_cemotory.jpeg' ] ,
         [ 'bookId' => '0' , 'authorName' => 'Lermontov Mikhail Yuryevich №1' , 'authorId' => '0' , 'name' => '1 book for №1' , 'image' => 'images.png' ] ,
         [ 'bookId' => '1' , 'authorName' => 'Lermontov Mikhail Yuryevich №1' , 'authorId' => '0' , 'name' => '2 book for №1' , 'image' => 'images.png' ] ,
         [ 'bookId' => '2' , 'authorName' => 'Lermontov Mikhail Yuryevich №1' , 'authorId' => '0' , 'name' => '3 book for №1' , 'image' => 'images.png' ] ,
@@ -63,7 +62,7 @@ class DataExtension
         [ 'bookId' => '28' , 'authorName' => 'Lermontov Mikhail Yuryevich №9' , 'authorId' => '8' , 'name' => '3 book for №9' , 'image' => 'images.png' ] ,
         [ 'bookId' => '29' , 'authorName' => 'Lermontov Mikhail Yuryevich №10' , 'authorId' => '9' , 'name' => '1 book for №10' , 'image' => 'images.png' ] ,
         [ 'bookId' => '30' , 'authorName' => 'Lermontov Mikhail Yuryevich №11' , 'authorId' => '10' , 'name' => '1 book for №11' , 'image' => 'images.png' ] ,
-        [ 'bookId' => '31' , 'authorName' => 'Lermontov Mikhail Yuryevich №12' , 'authorId' => '11' , 'name' => '1 book for №12' , 'image' => 'images.png' ],
+        [ 'bookId' => '31' , 'authorName' => 'Lermontov Mikhail Yuryevich №12' , 'authorId' => '11' , 'name' => '1 book for №12' , 'image' => 'images.png' ] ,
 
     ];
 
@@ -92,8 +91,46 @@ class DataExtension
         return $ret ?? null;
     }
 
-    public static function getBooksList()
+    /**
+     * Method return books for selected author by authorName
+     * @param $authorName
+     * @return array
+     */
+    public static function getBooksByAuthorName($authorName): ?array
+    {
+        $ret = [];
+        foreach (self::BOOKS_LIST as $book) {
+            if ($book['authorName'] === $authorName) {
+                $ret[] = $book;
+            }
+        }
+        return $ret ?? null;
+    }
+
+    /**
+     * Method return all books
+     * @return array
+     */
+    public static function getBooksList(): array
     {
         return self::BOOKS_LIST;
+    }
+
+    /**
+     * Method return count of all authors
+     * @return int
+     */
+    public static function getAuthorsCount(): int
+    {
+        return count(self::AUTHORS);
+    }
+
+    /**
+     * Method return count of all books
+     * @return int
+     */
+    public static function getBooksCount(): int
+    {
+        return count(self::BOOKS_LIST);
     }
 }

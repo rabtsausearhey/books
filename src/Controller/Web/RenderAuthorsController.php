@@ -18,17 +18,22 @@ class RenderAuthorsController extends AbstractController
 {
     public const PAGE = 'common.html.twig';
     public const PAGE_COMPONENT = '/components/authors.html.twig';
+    public const DEFAULT_COUNT_ON_PAGE = 10;
+    public const DEFAULT_CURRENT_PAGE = 1;
 
     /**
      * Use this method for render page with all authors
-     * @Route("/authors")
-     *
+     * @Route("/authors/{countOnPage}/{currentPage}")
+     * @param int $countOnPage
+     * @param int $currentPage
+     * @return Response
      */
-    public function RenderAuthorsPage(): Response
+    public function RenderAuthorsPage($countOnPage = self::DEFAULT_COUNT_ON_PAGE, $currentPage = self::DEFAULT_CURRENT_PAGE): Response
     {
         $authorsData = DataExtension::getAllAuthors();
         $authorsCount = count($authorsData);
-        $response =['authors'=> $authorsData, 'elementCount'=>$authorsCount,'elementsName'=>'authors', 'innerElement'=>self::PAGE_COMPONENT];
-        return $this->render(self::PAGE , $response);
+        $pageCount = (int)ceil($authorsCount / $countOnPage);
+        $parameters = [ 'elements' => $authorsData , 'elementsCount' => $authorsCount , 'elementsName' => 'authors' ,'pageCount'=>$pageCount,'currentPage'=>$currentPage, 'innerElement' => self::PAGE_COMPONENT ];
+        return $this->render(self::PAGE , $parameters);
     }
 }

@@ -1,0 +1,44 @@
+#wait-modal{
+    position: fixed;
+    display: none;
+    z-index: 1030;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0);
+}
+
+.wait-container{
+    position: relative;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    top:40vh;
+    left: 30vw;
+    width: 40vw;
+    height: 20px;
+    border-radius: 15px;
+    background-color: white;
+}
+
+.wait-track{
+    height: 10px;
+    width: 96%;
+    margin-left: 2%;
+    border-radius: 5px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.5) ;
+}
+
+.wait-runner{
+    background-color: #5eb5e0;
+    height: 10px;
+    width: 100%;
+
+    border-radius: 5px;
+    animation: one 4s;
+    animation-timing-function: linear;
+}
+
+@keyframes one{
+    0% {width: 0%;}
+    100%{left: 100%;}
+}

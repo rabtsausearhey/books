@@ -1,6 +1,7 @@
 .count-control-container {
 float: right;    margin-top: 37px;
     padding: 0 18px;
+    height: 26px;
     text-align: right;
     font-size: 150%;
 }
@@ -25,4 +26,8 @@ float: right;    margin-top: 37px;
 .elements-count {
     display: flex;
     margin: 0 40px;
+}
+
+.full-element-name{
+    margin-left: 5px;
 }

@@ -1,20 +1,31 @@
 <div class="row count-control-container">
-    <div >
-        <span>{{ elementCount }} {{ elementsName }}</span>
+    <div>
+        <span class="full-element-count">{{ elementsCount }}</span><span
+                class="full-element-name">{{ elementsName }}</span>
     </div>
     <div class="elements-count">
         <span>elements count</span>
-        <select id="elements-count-on-page">
-            <option>1</option>
-            <option>3</option>
-            <option>5</option>
-            <option>10</option>
-            <option>100</option>
-        </select>
+        <n id="elements-count-n">
+            <select id="elements-count-on-page">
+                <option value="1">1</option>
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="100">100</option>
+            </select>
+        </n>
     </div>
     <div class="page-number">
         <span class="glyphicon glyphicon-circle-arrow-left"></span>
-        <select id="page-number"></select>
+        <n id="page-number-n">
+            <select id="page-number">
+                {% for i in 1 .. pageCount %}
+                    <option class="page-number-option" {% if currentPage == i %}selected{% endif %}
+                            value="{{ i }}">{{ i }}</option>
+                {% endfor %}
+            </select>
+        </n>
         <span class="glyphicon glyphicon-circle-arrow-right"></span>
     </div>
 </div>

@@ -1,12 +1,15 @@
 {% include '/components/view_books_modals.html.twig' %}
 <div class="authors-list">
-    {% for author in authors %}
+    {% for author in elements %}
         <div class="author-box">
             <div class="author-control" data-author-name="{{ author['name'] }}" data-author-id="{{ author['id'] }}">
-                <span id="books-preview-{{ author['id'] }}" class="glyphicon glyphicon-eye-open books-preview title-info" data-title="all books by this author"></span>
-                <span id="substitution-{{ author['id'] }}" class="glyphicon glyphicon-shopping-cart title-info" data-title="books that are in our store"></span>
+                <span id="books-preview-{{ author['id'] }}"
+                      class="glyphicon glyphicon-eye-open books-preview title-info"
+                      data-title="all books by this author"></span>
+                <span id="substitution-{{ author['id'] }}" class="glyphicon glyphicon-shopping-cart title-info"
+                      data-title="books that are in our store"></span>
             </div>
-            <div class="author-name" >{{ author['name'] }}</div>
+            <div class="author-name">{{ author['name'] }}</div>
             <img class="author-image" src="/images/authors/{{ author['image'] }}">
         </div>
     {% endfor %}

@@ -1,15 +1,12 @@
 <?php
 
-
 namespace App\Controller\Api;
-
 
 use App\Extesion\DataExtension;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
-
 
 /**
  * Class BooksController
@@ -30,7 +27,7 @@ class BooksController extends AbstractController
            $books = DataExtension::getBooksByAuthorId($authorId);
            if ($books) {
                $response = [
-                   'status' => [ 'code' => 200 , 'message' => 'success' ] , 'books' => $books
+                   'status' => [ 'code' => 200 , 'message' => 'success' ] , 'elements' => $books
                ];
            } else {
                $response = [ 'status' => [ 'code' => 404 , 'message' => 'illegal author id' ] ];
@@ -40,5 +37,4 @@ class BooksController extends AbstractController
            return new JsonResponse([ 'status' => [ 'code' => 500 , 'message' => $e->getMessage() ] ]);
        }
     }
-
 }
