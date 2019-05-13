@@ -24,7 +24,6 @@ function initControls() {
 }
 
 function showPreviwPage() {
-
     const needlesPageNumber = parseInt($('#page-number').val()) - 1;
     const name = $('.full-element-name').text();
     const countOnPage = $('#elements-count-on-page').val();
@@ -156,16 +155,6 @@ function sendMail() {
         },
         error: ajaxErrorFunction
     });
-}
-
-/**
- * Convert month number to month name
- * @param id int
- * @returns {string}
- */
-function getMonthFullName(id) {
-    const mlist = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    return mlist[id];
 }
 
 /**
@@ -325,6 +314,14 @@ function setPageParameters(count, name, pageCount, currentPage, elementsCount = 
     }
     $('#wait-modal').hide();
 }
+
+/**
+ * Request body of page from server
+ * @param name
+ * @param count
+ * @param pageNumber
+ * @param cacheKey
+ */
 
 function requirePageBody(name, count, pageNumber, cacheKey) {
     $('#wait-modal').show();
