@@ -5,7 +5,7 @@ $(document).ready(() => {
     $('#show-preview-page').click(showPreviwPage);
     $('#show-next-page').click(showNextPage);
     $('.preview-btn-main').click(previewPage);
-    initCurrentPage();
+    initFirstPage();
     initControls();
 });
 
@@ -22,7 +22,9 @@ function initControls() {
     $('#page-number').change(changePageParams);
     $('#elements-count-on-page').change(changePageParams)
 }
-
+/**
+ * Move to preview page (current page number - 1)
+ */
 function showPreviwPage() {
     const needlesPageNumber = parseInt($('#page-number').val()) - 1;
     const name = $('.full-element-name').text();
@@ -30,6 +32,9 @@ function showPreviwPage() {
     getPageBody(name, countOnPage, needlesPageNumber)
 }
 
+/**
+ * Move to next page (current page number + 1)
+ */
 function showNextPage() {
     const needlesPageNumber = parseInt($('#page-number').val()) + 1;
     const name = $('.full-element-name').text();
@@ -37,7 +42,10 @@ function showNextPage() {
     getPageBody(name, countOnPage, needlesPageNumber)
 }
 
-function initCurrentPage() {
+/**
+ * Save parameters for first loaded page
+ */
+function initFirstPage() {
     const name = $('.full-element-name').text();
     const count = $('.full-element-count').text();
     const countOnPage = $('#elements-count-on-page').val();
@@ -248,6 +256,9 @@ function getPageBody(name, count, pageNumber) {
     }
 }
 
+/**
+ * Change page
+ */
 function changePageParams() {
     const name = $('.full-element-name').text();
     const count = $('#elements-count-on-page').val();
@@ -255,16 +266,31 @@ function changePageParams() {
     getPageBody(name, count, pageNumber)
 }
 
+/**
+ * Return to preview page
+ */
 function previewPage() {
     CURRENT_PAGE = PREVIEW_PAGE;
     setBodySuccess(CACHE[PREVIEW_PAGE])
 }
 
+/**
+ * Change page body
+ * @param result
+ */
 function setBodySuccess(result) {
     $('.common-container').html(result['html']);
     setPageParameters(result['elementsCount'], result['elementsName'], result['pageCount'], result['currentPage'], result['countOnPage']);
 }
 
+/**
+ * Update controls elements & info on page
+ * @param count
+ * @param name
+ * @param pageCount
+ * @param currentPage
+ * @param elementsCount
+ */
 function setPageParameters(count, name, pageCount, currentPage, elementsCount = '10') {
     $('.full-element-count').text(count);
     $('.full-element-name').text(name);
