@@ -20,6 +20,7 @@ class RenderBooksController extends AbstractController
     public const DEFAULT_CURRENT_PAGE = 1;
 
     /**
+     * Use this method for render page with books
      * @Route("/books/{countOnPage}/{currentPage}")
      * @param $countOnPage
      * @param int $currentPage
@@ -27,12 +28,19 @@ class RenderBooksController extends AbstractController
      */
     public function RenderBookPage($countOnPage = self::DEFAULT_COUNT_ON_PAGE , $currentPage = self::DEFAULT_CURRENT_PAGE): Response
     {
-        $books = DataExtension::getBooksList();
-        $elementsCount = count($books);
+        $booksList = DataExtension::getBooksList();
+        $elements =[];
+        for ($i = 0;$i<$countOnPage;$i++){
+            $book = $booksList[$i]??null;
+            if($book){
+                $elements[]=$book;
+            }
+        }
+        $elementsCount = count($booksList);
         $pageCount = (int)ceil($elementsCount / $countOnPage);
         $parameters =
             [
-                'elements' => $books , 'elementsCount' => $elementsCount , 'elementsName' => 'books' ,
+                'elements' => $elements , 'elementsCount' => $elementsCount , 'elementsName' => 'books' ,
                 'pageCount' => $pageCount , 'currentPage' => $currentPage , 'innerElement' => self::PAGE_COMPONENT
             ];
         return $this->render(self::PAGE , $parameters);

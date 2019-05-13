@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SendMailController extends AbstractController
 {
     /**
-     * This method return all books for selected author
+     * This method sent email for customer
      * @Route("/api/send-mail")
      * @param Request $request
      * @param Swift_Mailer $mailer

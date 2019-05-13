@@ -22,7 +22,7 @@ class RenderAuthorsController extends AbstractController
     public const DEFAULT_CURRENT_PAGE = 1;
 
     /**
-     * Use this method for render page with all authors
+     * Use this method for render page with authors
      * @Route("/authors/{countOnPage}/{currentPage}")
      * @param int $countOnPage
      * @param int $currentPage
@@ -31,9 +31,16 @@ class RenderAuthorsController extends AbstractController
     public function RenderAuthorsPage($countOnPage = self::DEFAULT_COUNT_ON_PAGE, $currentPage = self::DEFAULT_CURRENT_PAGE): Response
     {
         $authorsData = DataExtension::getAllAuthors();
+        $elements = [];
+        for ($i = 0;$i<10;$i++){
+            $author = $authorsData[$i]??null;
+            if($author){
+                $elements[]=$author;
+            }
+        }
         $authorsCount = count($authorsData);
         $pageCount = (int)ceil($authorsCount / $countOnPage);
-        $parameters = [ 'elements' => $authorsData , 'elementsCount' => $authorsCount , 'elementsName' => 'authors' ,'pageCount'=>$pageCount,'currentPage'=>$currentPage, 'innerElement' => self::PAGE_COMPONENT ];
+        $parameters = [ 'elements' => $elements , 'elementsCount' => $authorsCount , 'elementsName' => 'authors' ,'pageCount'=>$pageCount,'currentPage'=>$currentPage, 'innerElement' => self::PAGE_COMPONENT ];
         return $this->render(self::PAGE , $parameters);
     }
 }

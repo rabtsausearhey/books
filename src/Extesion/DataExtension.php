@@ -11,7 +11,6 @@ class DataExtension
 {
 
     private const AUTHORS = [
-        [ 'id' => 12 , 'image' => 'king.jpeg' , 'name' => 'Stephen King' ] ,
         [ 'id' => 0 , 'image' => 'lermantov.jpeg' , 'name' => 'Lermontov Mikhail Yuryevich №1' ] ,
         [ 'id' => 1 , 'image' => 'lermantov.jpeg' , 'name' => 'Lermontov Mikhail Yuryevich №2' ] ,
         [ 'id' => 2 , 'image' => 'lermantov.jpeg' , 'name' => 'Lermontov Mikhail Yuryevich №3' ] ,
@@ -24,10 +23,10 @@ class DataExtension
         [ 'id' => 9 , 'image' => 'lermantov.jpeg' , 'name' => 'Lermontov Mikhail Yuryevich №10' ] ,
         [ 'id' => 10 , 'image' => 'lermantov.jpeg' , 'name' => 'Lermontov Mikhail Yuryevich №11' ] ,
         [ 'id' => 11 , 'image' => 'lermantov.jpeg' , 'name' => 'Lermontov Mikhail Yuryevich №12' ] ,
+        [ 'id' => 12 , 'image' => 'king.jpeg' , 'name' => 'Stephen King' ] ,
     ];
 
     private const BOOKS_LIST = [
-        [ 'bookId' => '32' , 'authorName' => 'Stephen King' , 'authorId' => '12' , 'name' => 'Pet cemetery' , 'image' => 'pet_cemotory.jpeg' ] ,
         [ 'bookId' => '0' , 'authorName' => 'Lermontov Mikhail Yuryevich №1' , 'authorId' => '0' , 'name' => '1 book for №1' , 'image' => 'images.png' ] ,
         [ 'bookId' => '1' , 'authorName' => 'Lermontov Mikhail Yuryevich №1' , 'authorId' => '0' , 'name' => '2 book for №1' , 'image' => 'images.png' ] ,
         [ 'bookId' => '2' , 'authorName' => 'Lermontov Mikhail Yuryevich №1' , 'authorId' => '0' , 'name' => '3 book for №1' , 'image' => 'images.png' ] ,
@@ -63,7 +62,7 @@ class DataExtension
         [ 'bookId' => '29' , 'authorName' => 'Lermontov Mikhail Yuryevich №10' , 'authorId' => '9' , 'name' => '1 book for №10' , 'image' => 'images.png' ] ,
         [ 'bookId' => '30' , 'authorName' => 'Lermontov Mikhail Yuryevich №11' , 'authorId' => '10' , 'name' => '1 book for №11' , 'image' => 'images.png' ] ,
         [ 'bookId' => '31' , 'authorName' => 'Lermontov Mikhail Yuryevich №12' , 'authorId' => '11' , 'name' => '1 book for №12' , 'image' => 'images.png' ] ,
-
+        [ 'bookId' => '32' , 'authorName' => 'Stephen King' , 'authorId' => '12' , 'name' => 'Pet cemetery' , 'image' => 'pet_cemotory.jpeg' ] ,
     ];
 
     /**

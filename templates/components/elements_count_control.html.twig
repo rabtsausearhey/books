@@ -1,31 +1,34 @@
-<div class="row count-control-container">
-    <div>
-        <span class="full-element-count">{{ elementsCount }}</span><span
-                class="full-element-name">{{ elementsName }}</span>
-    </div>
-    <div class="elements-count">
-        <span>elements count</span>
-        <n id="elements-count-n">
-            <select id="elements-count-on-page">
-                <option value="1">1</option>
-                <option value="3">3</option>
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="100">100</option>
-            </select>
-        </n>
-    </div>
-    <div class="page-number">
-        <span class="glyphicon glyphicon-circle-arrow-left"></span>
-        <n id="page-number-n">
-            <select id="page-number">
-                {% for i in 1 .. pageCount %}
-                    <option class="page-number-option" {% if currentPage == i %}selected{% endif %}
-                            value="{{ i }}">{{ i }}</option>
-                {% endfor %}
-            </select>
-        </n>
-        <span class="glyphicon glyphicon-circle-arrow-right"></span>
+<div class="count-control-container">
+    <span class="glyphicon glyphicon-backward preview-btn-main" data-title="Preview page"></span>
+    <div class="row right-control-box">
+        <div>
+            <span class="full-element-count">{{ elementsCount }}</span><span
+                    class="full-element-name">{{ elementsName }}</span>
+        </div>
+        <div class="elements-count">
+            <span>elements count</span>
+            <n id="elements-count-n">
+                <select id="elements-count-on-page">
+                    <option value="1">1</option>
+                    <option value="3">3</option>
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
+                    <option value="20">20</option>
+                    <option value="100">100</option>
+                </select>
+            </n>
+        </div>
+        <div class="page-number">
+            <span class="glyphicon glyphicon-circle-arrow-left"></span>
+            <n id="page-number-n">
+                <select id="page-number">
+                    {% for i in 1 .. pageCount %}
+                        <option class="page-number-option" {% if currentPage == i %}selected{% endif %} value="{{ i }}">{{ i }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </n>
+            <span class="glyphicon glyphicon-circle-arrow-right"></span>
+        </div>
     </div>
 </div>

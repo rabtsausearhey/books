@@ -1,5 +1,9 @@
-const SETTINGS = {'authors': {'count': '10', 'page': '1'}, 'books': {'count': '10', 'page': '1'}};
+let CURRENT_PAGE = null;
+let PREVIEW_PAGE = null;
+const CACHE = {};
 $(document).ready(() => {
+    $('.preview-btn-main').click(previewPage);
+    initCurrentPage();
     initControls();
 });
 
@@ -13,8 +17,25 @@ function initControls() {
     $('#send-mail').click(sendMail);
     $('#customer-email').keyup(checkParametersForMail);
     $('#customer-name').keyup(checkParametersForMail);
-    $('#page-number').change(changePageParameters);
-    $('#elements-count-on-page').change(changePageParameters)
+    $('#page-number').change(changePageParams);
+    $('#elements-count-on-page').change(changePageParams)
+}
+
+function initCurrentPage() {
+    const name = $('.full-element-name').text();
+    const count = $('.full-element-count').text();
+    const countOnPage = $('#elements-count-on-page').val();
+    const pageNumber = $('#page-number').val();
+    const cacheKey = `${name}::${countOnPage}::${pageNumber}`;
+    CURRENT_PAGE = cacheKey;
+    CACHE[cacheKey] = {
+        'html': $('.common-container').html(),
+        'pageCount': $('.page-number-option').length,
+        'elementsName': name,
+        'elementsCount': count,
+        'currentPage': '1',
+        'countOnPage': countOnPage
+    }
 }
 
 /**
@@ -59,20 +80,34 @@ function bookPreview() {
 function substitution() {
     $('#wait-modal').show();
     const parentElement = $(this).parent();
-    const authorName = parentElement.attr('data-author-name');
-    $.ajax({
-        url: `/api/change-page/books of ${authorName}/20`,
-        success: (result) => {
-            if (result['status']['code'] === 200) {
-                const count = $('#elements-count-on-page').val();
-                const pageNumber = $('#page-number').val();
-                SETTINGS[`books of ${authorName}`] = {'count': count, 'page': pageNumber};
-                $('.common-container').html(result['html']);
-                setCountData(result['elementsCount'], result['elementsName'], result['pageCount'], result['currentPage']);
-            }
-        },
-        error: ajaxErrorFunction
-    });
+    const name = parentElement.attr('data-author-name');
+    const countOnPage = '10';
+    const cacheKey = `${name}::${countOnPage}::1`;
+    let response = CACHE[cacheKey];
+    if (response) {
+        PREVIEW_PAGE = CURRENT_PAGE;
+        CURRENT_PAGE = cacheKey;
+        getBodySuccess(response);
+    } else {
+        $('#wait-modal').show();
+        $.ajax({
+            url: `/api/change-page/books of ${name}/${countOnPage}`,
+            success: (result) => {
+                if (result['status']['code'] === 200) {
+                    PREVIEW_PAGE = CURRENT_PAGE;
+                    CURRENT_PAGE = cacheKey;
+                    result['countOnPage'] = countOnPage;
+                    CACHE[cacheKey] = result;
+                    $('.common-container').html(result['html']);
+                    setCountData(result['elementsCount'], result['elementsName'], result['pageCount'], result['currentPage'], result['countOnPage']);
+                } else {
+                    alert(`error ${result['status']['code']} :: ${result['status']['message']}`);
+                    $('#wait-modal').hide();
+                }
+            },
+            error: ajaxErrorFunction
+        });
+    }
 }
 
 /**
@@ -82,10 +117,13 @@ function substitution() {
  * @param error
  */
 function ajaxErrorFunction(xhr, status, error) {
-    alert(`${status} :\n${error}`)
+    alert(`${status}\n${error}`);
     $('#wait-modal').hide();
 }
 
+/**
+ * This function show purchase window
+ */
 function buyBook() {
     const bookName = $(this).attr('data-buy-book-name');
     const buyModal = $('#buy-book-modal');
@@ -103,7 +141,7 @@ function sendMail() {
     const name = $('#customer-name').val();
     const email = $('#customer-email').val();
     const currenDate = new Date();
-    const date = `${currenDate.getHours()}:${currenDate.getMinutes()} ${currenDate.getDate()} ${getMonthFullName(currenDate.getMonth())} ${currenDate.getFullYear()}`
+    const date = `${currenDate.getHours()}:${currenDate.getMinutes()} ${currenDate.getDate()} ${getMonthFullName(currenDate.getMonth())} ${currenDate.getFullYear()}`;
     const data = {email, name, date, bookName};
     $.ajax({
         type: 'POST',
@@ -116,7 +154,7 @@ function sendMail() {
                 alert(result['status']['message']);
                 $('#wait-modal').hide();
             } else {
-                alert(`error ${result['status']['code']} :: ${result['status']['message']}`)
+                alert(`error ${result['status']['code']} :: ${result['status']['message']}`);
                 $('#wait-modal').hide();
             }
         },
@@ -210,7 +248,57 @@ function rejectValidation(text) {
     $('#send-mail').attr('disabled', 'true');
 }
 
-function setCountData(count, name, pageCount, currentPage) {
+/**
+ * Request for update page body
+ */
+function getPageBody(name = null, count = null, pageNumber = null) {
+    const cacheKey = `${name}::${count}::${pageNumber}`;
+    let response = CACHE[cacheKey];
+    if (response) {
+        PREVIEW_PAGE = CURRENT_PAGE;
+        CURRENT_PAGE = cacheKey;
+        getBodySuccess(response);
+    } else {
+        $('#wait-modal').show();
+        $.ajax({
+            url: `/api/change-page/${name}/${count}/${pageNumber}`,
+            type: 'GET',
+            contentType: "application/json; charset=utf-8",
+            success: (result) => {
+                if (result['status']['code'] === 200) {
+                    PREVIEW_PAGE = CURRENT_PAGE;
+                    CURRENT_PAGE = cacheKey;
+                    result['countOnPage'] = count;
+                    CACHE[cacheKey] = result;
+                    getBodySuccess(result)
+                } else {
+                    alert(`error ${result['status']['code']} :: ${result['status']['message']}`);
+                    $('#wait-modal').hide();
+                }
+            },
+            error: ajaxErrorFunction
+        });
+    }
+}
+
+function changePageParams() {
+    const name = $('.full-element-name').text();
+    const count = $('#elements-count-on-page').val();
+    const pageNumber = $('#page-number').val();
+    getPageBody(name, count, pageNumber)
+}
+
+function previewPage() {
+    CURRENT_PAGE = PREVIEW_PAGE;
+    getBodySuccess(CACHE[PREVIEW_PAGE])
+}
+
+function getBodySuccess(result) {
+    $('.common-container').html(result['html']);
+    setCountData(result['elementsCount'], result['elementsName'], result['pageCount'], result['currentPage'], result['countOnPage']);
+}
+
+function setCountData(count, name, pageCount, currentPage, elementsCount = '10') {
     $('.full-element-count').text(count);
     $('.full-element-name').text(name);
     $('#page-number').remove();
@@ -236,30 +324,15 @@ function setCountData(count, name, pageCount, currentPage) {
         '<option value="100">100</option>\n' +
         '</select>'
     );
-    $('#elements-count-on-page').val(SETTINGS[name]['count']);
+    $('#elements-count-on-page').val(elementsCount);
     initControls();
+    console.log(PREVIEW_PAGE);
+    console.log(CURRENT_PAGE);
+    const previewPageBtn = $('.preview-btn-main');
+    if (!PREVIEW_PAGE || PREVIEW_PAGE === CURRENT_PAGE) {
+        previewPageBtn.hide();
+    } else {
+        previewPageBtn.show();
+    }
     $('#wait-modal').hide();
-}
-
-function changePageParameters() {
-    $('#wait-modal').show();
-    const name = $('.full-element-name').text();
-    const count = $('#elements-count-on-page').val();
-    const pageNumber = $('#page-number').val();
-    $.ajax({
-        url: `/api/change-page/${name}/${count}/${pageNumber}`,
-        type: 'GET',
-        contentType: "application/json; charset=utf-8",
-        success: (result) => {
-            if (result['status']['code'] === 200) {
-                SETTINGS[name] = {'count': count, 'page': pageNumber}
-                $('.common-container').html(result['html']);
-                setCountData(result['elementsCount'], result['elementsName'], result['pageCount'], result['currentPage']);
-            } else {
-                alert(`error ${result['status']['code']} :: ${result['status']['message']}`)
-                $('#wait-modal').hide();
-            }
-        },
-        error: ajaxErrorFunction
-    });
 }
