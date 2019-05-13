@@ -119,8 +119,10 @@ function ajaxErrorFunction(xhr, status, error) {
  */
 function buyBook() {
     const bookName = $(this).attr('data-buy-book-name');
+    const authorName = $(this).attr('data-author')
     const buyModal = $('#buy-book-modal');
     buyModal.find('#buy-book-name').text(bookName);
+    buyModal.find('#buy-book-author').text(authorName);
     buyModal.modal('show');
 }
 
@@ -131,11 +133,13 @@ function sendMail() {
     $('#wait-modal').show();
     const buyModal = $('#buy-book-modal');
     const bookName = buyModal.find('#buy-book-name').text();
+    const bookAuthor = buyModal.find('#buy-book-author').text();
     const name = $('#customer-name').val();
     const email = $('#customer-email').val();
     const currenDate = new Date();
-    const date = `${currenDate.getHours()}:${currenDate.getMinutes()} ${currenDate.getDate()} ${getMonthFullName(currenDate.getMonth())} ${currenDate.getFullYear()}`;
-    const data = {email, name, date, bookName};
+    const time = `${currenDate.getHours()}:${currenDate.getMinutes()}`;
+    const date = `${currenDate.getDate()} ${getMonthFullName(currenDate.getMonth())} ${currenDate.getFullYear()}`;
+    const data = {email, name, date,time, bookName, bookAuthor};
     $.ajax({
         type: 'POST',
         url: '/api/send-mail',

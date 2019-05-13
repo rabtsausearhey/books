@@ -32,7 +32,9 @@ class SendMailController extends AbstractController
             $email = $parameters['email'];
             $name = $parameters['name'];
             $date = $parameters['date'];
+            $time = $parameters['time'];
             $bookName = $parameters['bookName'];
+            $author = $parameters['bookAuthor'];
             $message = (new Swift_Message('Hello Email'))
                 ->setFrom('bookshopprojectexemple@gmail.com')
                 ->setTo($email)
@@ -40,7 +42,7 @@ class SendMailController extends AbstractController
                 ->setBody(
                     $this->renderView(
                         'emails/confirmation.html.twig' ,
-                        [ 'name' => $name , 'date' => $date , 'bookName' => $bookName ]
+                        [ 'name' => $name , 'date' => $date ,'time'=>$time, 'bookName' => $bookName , 'author' => $author ]
                     ) ,
                     'text/html'
                 );

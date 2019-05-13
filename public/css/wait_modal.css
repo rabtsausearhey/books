@@ -1,7 +1,7 @@
 #wait-modal{
     position: fixed;
     display: none;
-    z-index: 1030;
+    z-index: 1130;
     width: 100vw;
     height: 100vh;
     background-color: rgba(0,0,0,0);
@@ -12,7 +12,7 @@
     display: table-cell;
     vertical-align: middle;
     text-align: center;
-    top:40vh;
+    top:45vh;
     left: 30vw;
     width: 40vw;
     height: 20px;
