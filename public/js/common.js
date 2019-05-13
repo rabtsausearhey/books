@@ -2,6 +2,8 @@ let CURRENT_PAGE = null;
 let PREVIEW_PAGE = null;
 const CACHE = {};
 $(document).ready(() => {
+    $('#show-preview-page').click(showPreviwPage);
+    $('#show-next-page').click(showNextPage);
     $('.preview-btn-main').click(previewPage);
     initCurrentPage();
     initControls();
@@ -19,6 +21,21 @@ function initControls() {
     $('#customer-name').keyup(checkParametersForMail);
     $('#page-number').change(changePageParams);
     $('#elements-count-on-page').change(changePageParams)
+}
+
+function showPreviwPage() {
+
+    const needlesPageNumber = parseInt($('#page-number').val()) - 1;
+    const name = $('.full-element-name').text();
+    const countOnPage = $('#elements-count-on-page').val();
+    getPageBody(name, countOnPage, needlesPageNumber)
+}
+
+function showNextPage() {
+    const needlesPageNumber = parseInt($('#page-number').val()) + 1;
+    const name = $('.full-element-name').text();
+    const countOnPage = $('#elements-count-on-page').val();
+    getPageBody(name, countOnPage, needlesPageNumber)
 }
 
 function initCurrentPage() {
@@ -81,33 +98,9 @@ function substitution() {
     $('#wait-modal').show();
     const parentElement = $(this).parent();
     const name = parentElement.attr('data-author-name');
-    const countOnPage = '10';
-    const cacheKey = `${name}::${countOnPage}::1`;
-    let response = CACHE[cacheKey];
-    if (response) {
-        PREVIEW_PAGE = CURRENT_PAGE;
-        CURRENT_PAGE = cacheKey;
-        getBodySuccess(response);
-    } else {
-        $('#wait-modal').show();
-        $.ajax({
-            url: `/api/change-page/books of ${name}/${countOnPage}`,
-            success: (result) => {
-                if (result['status']['code'] === 200) {
-                    PREVIEW_PAGE = CURRENT_PAGE;
-                    CURRENT_PAGE = cacheKey;
-                    result['countOnPage'] = countOnPage;
-                    CACHE[cacheKey] = result;
-                    $('.common-container').html(result['html']);
-                    setCountData(result['elementsCount'], result['elementsName'], result['pageCount'], result['currentPage'], result['countOnPage']);
-                } else {
-                    alert(`error ${result['status']['code']} :: ${result['status']['message']}`);
-                    $('#wait-modal').hide();
-                }
-            },
-            error: ajaxErrorFunction
-        });
-    }
+    const defaultCountOnPage = '10';
+    const defaultPageNumber = '1';
+    getPageBody(name, defaultCountOnPage, defaultPageNumber);
 }
 
 /**
@@ -249,35 +242,17 @@ function rejectValidation(text) {
 }
 
 /**
- * Request for update page body
+ * Check cache for update page body
  */
-function getPageBody(name = null, count = null, pageNumber = null) {
+function getPageBody(name, count, pageNumber) {
     const cacheKey = `${name}::${count}::${pageNumber}`;
     let response = CACHE[cacheKey];
     if (response) {
         PREVIEW_PAGE = CURRENT_PAGE;
         CURRENT_PAGE = cacheKey;
-        getBodySuccess(response);
+        setBodySuccess(response);
     } else {
-        $('#wait-modal').show();
-        $.ajax({
-            url: `/api/change-page/${name}/${count}/${pageNumber}`,
-            type: 'GET',
-            contentType: "application/json; charset=utf-8",
-            success: (result) => {
-                if (result['status']['code'] === 200) {
-                    PREVIEW_PAGE = CURRENT_PAGE;
-                    CURRENT_PAGE = cacheKey;
-                    result['countOnPage'] = count;
-                    CACHE[cacheKey] = result;
-                    getBodySuccess(result)
-                } else {
-                    alert(`error ${result['status']['code']} :: ${result['status']['message']}`);
-                    $('#wait-modal').hide();
-                }
-            },
-            error: ajaxErrorFunction
-        });
+        requirePageBody(name, count, pageNumber, cacheKey);
     }
 }
 
@@ -290,15 +265,15 @@ function changePageParams() {
 
 function previewPage() {
     CURRENT_PAGE = PREVIEW_PAGE;
-    getBodySuccess(CACHE[PREVIEW_PAGE])
+    setBodySuccess(CACHE[PREVIEW_PAGE])
 }
 
-function getBodySuccess(result) {
+function setBodySuccess(result) {
     $('.common-container').html(result['html']);
-    setCountData(result['elementsCount'], result['elementsName'], result['pageCount'], result['currentPage'], result['countOnPage']);
+    setPageParameters(result['elementsCount'], result['elementsName'], result['pageCount'], result['currentPage'], result['countOnPage']);
 }
 
-function setCountData(count, name, pageCount, currentPage, elementsCount = '10') {
+function setPageParameters(count, name, pageCount, currentPage, elementsCount = '10') {
     $('.full-element-count').text(count);
     $('.full-element-name').text(name);
     $('#page-number').remove();
@@ -326,13 +301,46 @@ function setCountData(count, name, pageCount, currentPage, elementsCount = '10')
     );
     $('#elements-count-on-page').val(elementsCount);
     initControls();
-    console.log(PREVIEW_PAGE);
-    console.log(CURRENT_PAGE);
     const previewPageBtn = $('.preview-btn-main');
     if (!PREVIEW_PAGE || PREVIEW_PAGE === CURRENT_PAGE) {
         previewPageBtn.hide();
     } else {
         previewPageBtn.show();
     }
+    const previewPageSpan = $('#show-preview-page');
+    if (currentPage <= 1) {
+        previewPageSpan.css('visibility', 'hidden');
+    } else {
+        previewPageSpan.css('visibility', 'visible');
+    }
+
+    const nextPageSpan = $('#show-next-page');
+    if (currentPage >= pageCount) {
+        nextPageSpan.css('visibility', 'hidden')
+    } else {
+        nextPageSpan.css('visibility', 'visible')
+    }
     $('#wait-modal').hide();
+}
+
+function requirePageBody(name, count, pageNumber, cacheKey) {
+    $('#wait-modal').show();
+    $.ajax({
+        url: `/api/change-page/${name}/${count}/${pageNumber}`,
+        type: 'GET',
+        contentType: "application/json; charset=utf-8",
+        success: (result) => {
+            if (result['status']['code'] === 200) {
+                PREVIEW_PAGE = CURRENT_PAGE;
+                CURRENT_PAGE = cacheKey;
+                result['countOnPage'] = count;
+                CACHE[cacheKey] = result;
+                setBodySuccess(result)
+            } else {
+                alert(`error ${result['status']['code']} :: ${result['status']['message']}`);
+                $('#wait-modal').hide();
+            }
+        },
+        error: ajaxErrorFunction
+    });
 }

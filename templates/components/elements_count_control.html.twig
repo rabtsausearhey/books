@@ -19,16 +19,17 @@
             </n>
         </div>
         <div class="page-number">
-            <span class="glyphicon glyphicon-circle-arrow-left"></span>
+            <span id="show-preview-page" class="glyphicon glyphicon-circle-arrow-left"></span>
             <n id="page-number-n">
                 <select id="page-number">
                     {% for i in 1 .. pageCount %}
-                        <option class="page-number-option" {% if currentPage == i %}selected{% endif %} value="{{ i }}">{{ i }}
+                        <option class="page-number-option" {% if currentPage == i %}selected{% endif %}
+                                value="{{ i }}">{{ i }}
                         </option>
                     {% endfor %}
                 </select>
             </n>
-            <span class="glyphicon glyphicon-circle-arrow-right"></span>
+            <span id="show-next-page" class="glyphicon glyphicon-circle-arrow-right"></span>
         </div>
     </div>
 </div>
