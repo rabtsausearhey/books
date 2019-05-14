@@ -1,2 +1,2 @@
 # books
-The project is made using the symphony framework 4.2
+The project is made using the symfony framework 4.2
